@@ -2,7 +2,9 @@
 using Api.Common.Extensions;
 using Application.Abstractions.Messaging;
 using Application.Features.Registrations.CreateRegistration;
+using Application.Features.Registrations.GetRegistrationById;
 using Application.Features.Registrations.GetRegistrations;
+using Application.Features.Registrations.GetRegistrationSummary;
 using Domain.Common;
 
 namespace Api.Endpoints;
@@ -48,5 +50,32 @@ public static class CarShowRegistrationEndpoints
             return Results.Ok(result.Value);
         })
         .AddEndpointFilter<ValidationFilter<GetRegistrationsQuery>>();
+
+        group.MapGet("/summary", async (
+            IQueryHandler<GetRegistrationSummaryQuery, Result<RegistrationSummaryResponse>> handler,
+            CancellationToken ct) =>
+        {
+            var result = await handler.HandleAsync(new GetRegistrationSummaryQuery(), ct);
+            if (!result.IsSuccess)
+            {
+                return result.ToProblemDetails();
+            }
+
+            return Results.Ok(result.Value);
+        });
+
+        group.MapGet("/{id:guid}", async (
+            Guid id,
+            IQueryHandler<GetRegistrationByIdQuery, Result<RegistrationResponse>> handler,
+            CancellationToken ct) =>
+        {
+            var result = await handler.HandleAsync(new GetRegistrationByIdQuery(id), ct);
+            if (!result.IsSuccess)
+            {
+                return result.ToProblemDetails();
+            }
+
+            return Results.Ok(result.Value);
+        });
     }
 }
