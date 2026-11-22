@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿namespace Domain.Enums;
 
-namespace Domain.Enums
+public enum RegistrationType
 {
-    internal class RegistrationType
-    {
-    }
+    Exhibitor = 0,
+    Competitor = 1,
+    VIP = 2
 }
