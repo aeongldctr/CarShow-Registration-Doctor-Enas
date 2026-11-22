@@ -3,6 +3,7 @@ using Api.Endpoints;
 using Application.Abstractions.Data;
 using Application.Abstractions.Messaging;
 using Application.Features.Registrations.CreateRegistration;
+using Application.Features.Registrations.GetRegistrations;
 using Domain.Common;
 using Domain.Entities;
 using Domain.Enums;
@@ -45,6 +46,7 @@ builder.Services.AddValidatorsFromAssembly(typeof(IAppDbContext).Assembly);
 
 // Handlers
 builder.Services.AddScoped<ICommandHandler<CreateRegistrationCommand, Result<RegistrationResponse>>, CreateRegistrationHandler>();
+builder.Services.AddScoped<IQueryHandler<GetRegistrationsQuery, Result<PagedRegistrationsResponse>>, GetRegistrationsHandler>();
 
 // API
 builder.Services.AddEndpointsApiExplorer();
